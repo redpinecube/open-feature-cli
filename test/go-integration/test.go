@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"github.com/open-feature/go-sdk/openfeature"
 	"github.com/open-feature/go-sdk/openfeature/memprovider"
+	generated "github.com/open-feature/cli/test/go-integration/openfeature"
 )
 
-// This program validates that the generated OpenFeature Go client code compiles
-// We don't need to run the code since the goal is to test compilation only
 func main() {
 	// Set up the in-memory provider with test flags
 	provider := memprovider.NewInMemoryProvider(map[string]memprovider.InMemoryFlag{
@@ -49,38 +48,32 @@ func main() {
 		return
 	}
 
-	// Create a new client
-	client := openfeature.NewClient("test-app")
-
-	// Test flag evaluations
 	ctx := context.Background()
+	evalCtx := openfeature.NewEvaluationContext("someid", map[string]any{})
 
-	// Test boolean flag
-	enableFeatureA, err := client.BooleanValue(ctx, "enableFeatureA", true, openfeature.EvaluationContext{})
+	// Use the generated code for all flag evaluations
+	enableFeatureA, err := generated.EnableFeatureA.Value(ctx, evalCtx)
 	if err != nil {
 		fmt.Printf("Error evaluating boolean flag: %v\n", err)
 		return
 	}
 	fmt.Printf("enableFeatureA: %v\n", enableFeatureA)
 
-	// Test float flag
-	discountPercentage, err := client.FloatValue(ctx, "discountPercentage", 0.0, openfeature.EvaluationContext{})
+	discount, err := generated.DiscountPercentage.Value(ctx, evalCtx)
 	if err != nil {
-		fmt.Printf("Error evaluating float flag: %v\n", err)
+		fmt.Printf("Failed to get discount: %v\n", err)
 		return
 	}
-	fmt.Printf("discountPercentage: %v\n", discountPercentage)
+	fmt.Printf("Discount Percentage: %.2f\n", discount)
 
-	// Test string flag
-	greetingMessage, err := client.StringValue(ctx, "greetingMessage", "", openfeature.EvaluationContext{})
+	greetingMessage, err := generated.GreetingMessage.Value(ctx, evalCtx)
 	if err != nil {
 		fmt.Printf("Error evaluating string flag: %v\n", err)
 		return
 	}
 	fmt.Printf("greetingMessage: %v\n", greetingMessage)
 
-	// Test integer flag
-	usernameMaxLength, err := client.IntValue(ctx, "usernameMaxLength", 0, openfeature.EvaluationContext{})
+	usernameMaxLength, err := generated.UsernameMaxLength.Value(ctx, evalCtx)
 	if err != nil {
 		fmt.Printf("Error evaluating int flag: %v\n", err)
 		return
@@ -88,4 +81,4 @@ func main() {
 	fmt.Printf("usernameMaxLength: %v\n", usernameMaxLength)
 
 	fmt.Println("Generated Go code compiles successfully!")
-} 
+}

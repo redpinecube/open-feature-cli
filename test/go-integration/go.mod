@@ -2,7 +2,7 @@ module github.com/open-feature/cli/test/go-integration
 
 go 1.22
 
-require github.com/open-feature/go-sdk v1.10.0
+require github.com/open-feature/go-sdk v1.15.0
 
 require (
 	github.com/go-logr/logr v1.4.1 // indirect
