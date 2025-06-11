@@ -60,8 +60,7 @@ func run() error {
 	// Use the generated code for all flag evaluations
 	enableFeatureA, err := generated.EnableFeatureA.Value(ctx, evalCtx)
 	if err != nil {
-		fmt.Printf("Error evaluating boolean flag: %v\n", err)
-		return
+		return fmt.Errorf("Error evaluating boolean flag: %w", err)
 	}
 	fmt.Printf("enableFeatureA: %v\n", enableFeatureA)
 
