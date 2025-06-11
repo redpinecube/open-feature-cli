@@ -9,6 +9,13 @@ import (
 )
 
 func main() {
+	if err := run(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func run() error {
 	// Set up the in-memory provider with test flags
 	provider := memprovider.NewInMemoryProvider(map[string]memprovider.InMemoryFlag{
 		"discountPercentage": {
