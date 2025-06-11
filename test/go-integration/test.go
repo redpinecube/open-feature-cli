@@ -51,8 +51,7 @@ func run() error {
 	// Set the provider and wait for it to be ready
 	err := openfeature.SetProviderAndWait(provider)
 	if err != nil {
-		fmt.Printf("Failed to set provider: %v\n", err)
-		return
+		return fmt.Errorf("Failed to set provider: %w", err)
 	}
 
 	ctx := context.Background()
