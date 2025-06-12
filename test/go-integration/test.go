@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
+	generated "github.com/open-feature/cli/test/go-integration/openfeature"
 	"github.com/open-feature/go-sdk/openfeature"
 	"github.com/open-feature/go-sdk/openfeature/memprovider"
-	generated "github.com/open-feature/cli/test/go-integration/openfeature"
 )
 
 func main() {
@@ -66,24 +68,23 @@ func run() error {
 
 	discount, err := generated.DiscountPercentage.Value(ctx, evalCtx)
 	if err != nil {
-		fmt.Printf("Failed to get discount: %v\n", err)
-		return
+		return fmt.Errorf("Failed to get discount: %w", err)
 	}
 	fmt.Printf("Discount Percentage: %.2f\n", discount)
 
 	greetingMessage, err := generated.GreetingMessage.Value(ctx, evalCtx)
 	if err != nil {
-		fmt.Printf("Error evaluating string flag: %v\n", err)
-		return
+		return fmt.Errorf("Error evaluating string flag: %w", err)
 	}
 	fmt.Printf("greetingMessage: %v\n", greetingMessage)
 
 	usernameMaxLength, err := generated.UsernameMaxLength.Value(ctx, evalCtx)
 	if err != nil {
-		fmt.Printf("Error evaluating int flag: %v\n", err)
-		return
+		return fmt.Errorf("Error evaluating int flag: %v\n", err)
 	}
 	fmt.Printf("usernameMaxLength: %v\n", usernameMaxLength)
 
 	fmt.Println("Generated Go code compiles successfully!")
+
+	return nil
 }
